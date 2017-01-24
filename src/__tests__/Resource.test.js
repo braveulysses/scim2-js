@@ -77,6 +77,15 @@ describe('A SCIM resource parsed from JSON', () => {
 }
 `;
 
+  it('can be serialized back to JSON', () => {
+    let resource = Resource.fromJSON(RESOURCE);
+    const json = resource.toJSON();
+    expect(json).not.toBeNull();
+    resource = new Resource(JSON.parse(json));
+    expect(resource.id()).toEqual('7f93b9ae-85ce-4bce-baf8-1c18f25ace64');
+    expect(resource.get('userName')).toEqual('rkn');
+  });
+
   it('can get the resource ID', () => {
     const resource = Resource.fromJSON(RESOURCE);
     expect(resource.id()).toEqual('7f93b9ae-85ce-4bce-baf8-1c18f25ace64');
@@ -104,7 +113,7 @@ describe('A SCIM resource parsed from JSON', () => {
 
   it('can get a boolean attribute', () => {
     const resource = Resource.fromJSON(RESOURCE);
-    expect(resource.get('enabled')).toBeTruthy();
+    expect(resource.get('enabled')).toEqual(true);
   });
 
   it('can get a complex multivalued attribute', () => {
@@ -201,12 +210,72 @@ describe('A SCIM resource parsed from JSON', () => {
     expect(cat.name).toEqual('Hanuman');
   });
 
-  it('can be serialized back to JSON', () => {
-    let resource = Resource.fromJSON(RESOURCE);
-    const json = resource.toJSON();
-    expect(json).not.toBeNull();
-    resource = new Resource(JSON.parse(json));
-    expect(resource.id()).toEqual('7f93b9ae-85ce-4bce-baf8-1c18f25ace64');
-    expect(resource.get('userName')).toEqual('rkn');
+  it('can set a simple attribute value', () => {
+    const resource = Resource.fromJSON(RESOURCE);
+    resource.set('enabled', false);
+    expect(resource.get('enabled')).toEqual(false);
+  });
+
+  it('can set a complex attribute value', () => {
+    const newName = {
+      "familyName": "Narayan",
+      "formatted": "R.K. Narayan",
+      "givenName": "R.K."
+    };
+    const resource = Resource.fromJSON(RESOURCE);
+    resource.set('name', newName);
+    expect(resource.get('name.givenName')).toEqual('R.K.');
+    expect(resource.get('name.familyName')).toEqual('Narayan');
+    expect(resource.get('name.formatted')).toEqual('R.K. Narayan');
+  });
+
+  it("can set a complex attribute's sub-attribute", () => {
+    const resource = Resource.fromJSON(RESOURCE);
+    resource.set('name.givenName', 'R.K.');
+    expect(resource.get('name.givenName')).toEqual('R.K.');
+    expect(resource.get('name.familyName')).toEqual('Narayanaswami');
+    expect(resource.get('name.formatted')).toEqual('R.K. Narayan');
+  });
+
+  it("can set a complex attribute member", () => {
+    const newPhoneNumbers = [
+      {
+        "value": "+1 361 720 5000",
+        "type": "mobile",
+        "primary": true
+      },
+      {
+        "value": "+1 361 456 3207",
+        "type": "work",
+        "primary": false
+      },
+      {
+        "value": "+1 361 720 7251",
+        "type": "home",
+        "primary": false
+      }
+    ];
+    const resource = Resource.fromJSON(RESOURCE);
+    resource.set('phoneNumbers', newPhoneNumbers);
+    expect(resource.get('phoneNumbers[type eq "mobile"]').value).toEqual('+1 361 720 5000');
+  });
+
+  it("cannot set a complex attribute member using a filter", () => {
+    const newMobileNumber = {
+      "value": "+1 361 720 5000",
+      "type": "mobile",
+      "primary": true
+    };
+    const resource = Resource.fromJSON(RESOURCE);
+    expect(() => {
+      resource.set('phoneNumbers[type eq "mobile"]', newMobileNumber);
+    }).toThrow();
+  });
+
+  it('can set a simple extension attribute', () => {
+    const attrPath = 'urn:example.com:scim:schemas:example:1.0:birthDate';
+    const resource = Resource.fromJSON(RESOURCE);
+    resource.set(attrPath, '1906-10-09');
+    expect(resource.get(attrPath)).toEqual('1906-10-09');
   });
 });

@@ -33,12 +33,12 @@ class Resource {
     if (match) {
       return {
         attributePath: match[3],
-        attribute: this.data[match[2]]
+        data: this.data[match[2]]
       }
     } else {
       return {
         attributePath: path,
-        attribute: this.data
+        data: this.data
       }
     }
   }
@@ -119,12 +119,12 @@ class Resource {
   }
 
   get(path) {
-    const { attributePath, attribute } = this._resolveSchema(path);
+    const { attributePath, data } = this._resolveSchema(path);
     const parsedPath = Resource._parseValueFilter(attributePath);
     if (parsedPath) {
       try {
         return this._getValueFromFilter(
-            attribute,
+            data,
             parsedPath.attribute,
             parsedPath.filterAttribute,
             parsedPath.operator,
@@ -134,7 +134,16 @@ class Resource {
         return undefined;
       }
     }
-    return objectPath.get(attribute, attributePath);
+    return objectPath.get(data, attributePath);
+  }
+
+  set(path, value) {
+    const { attributePath, data } = this._resolveSchema(path);
+    const parsedPath = Resource._parseValueFilter(attributePath);
+    if (parsedPath) {
+      throw new Error('setting a value using a value filter is unsupported');
+    }
+    objectPath.set(data, attributePath, value);
   }
 
   toJSON() {
