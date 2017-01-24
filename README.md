@@ -32,7 +32,7 @@ fetch(url, {
 }).then(function(response) {
   return response.json();
 }).then(function(json) {
-  const user = Resource.fromJSON(json);
+  const user = new Resource(json);
   console.log(user.id());
   console.log(user.schemas());
   console.log(user.get('userName'));
