@@ -1,4 +1,5 @@
 import objectPath from 'object-path';
+import Filter from './Filter';
 
 class Resource {
   constructor(data) {
@@ -11,16 +12,16 @@ class Resource {
   }
 
   static _parseValueFilter(path) {
-    // This just uses a regex, so it can't handle filters containing
-    // multiple expressions. Ideally, an actual parser would be used.
-    const VALUE_FILTER_RX = /(\w+)\[(\w+) (\w+)( "?([^"]+)"?)?]/;
+    const VALUE_FILTER_RX = /(\w+)\[(.+)]/;
     let match = VALUE_FILTER_RX.exec(path);
     if (match) {
+      const attr = match[1];
+      const filter = Filter.parse(match[2]);
       return {
-        attribute: match[1],
-        filterAttribute: match[2],
-        operator: match[3],
-        filterValue: match[5]
+        attribute: attr,
+        filterAttribute: filter.attrExp,
+        operator: filter.operator,
+        filterValue: filter.valuePath
       };
     }
     return null;

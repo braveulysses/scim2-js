@@ -23,7 +23,8 @@
     "jest": "^18.1.0"
   },
   "dependencies": {
-    "object-path": "^0.11.3"
+    "object-path": "^0.11.3",
+    "strscan": "^1.0.1"
   },
   "jest": {
     "collectCoverageFrom": [
