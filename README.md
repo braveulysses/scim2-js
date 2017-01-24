@@ -16,7 +16,7 @@ import { Resource, Constants } from 'scim2-js';
 
 const accessToken = '...';
 
-// This example uses the Fetch API
+// This example uses the Fetch API, but the request mechanism is up to you.
 fetch(url, {
   method: 'get',
   headers: {
@@ -27,8 +27,9 @@ fetch(url, {
   return response.json();
 }).then(function(json) {
   const user = Resource.fromJSON(json);
-  console.log(user.getId());
-  console.log(user.getValue('userName'));
-  console.log(user.getValue('phoneNumbers[type eq "mobile"]'));
+  console.log(user.id());
+  console.log(user.schemas());
+  console.log(user.get('userName'));
+  console.log(user.get('phoneNumbers[type eq "mobile"]'));
 });
 ```
