@@ -1,7 +1,7 @@
 {
-  "name": "scim2-js",
+  "name": "@braveulysses/scim2",
   "version": "0.1.0",
-  "description": "SCIM 2 for JavaScript",
+  "description": "Simple SCIM 2 for JavaScript",
   "main": "./dist/index.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
@@ -17,6 +17,14 @@
   ],
   "author": "Jacob Childress <jacobc@gmail.com>",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/braveulysses/scim2-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/braveulysses/scim2-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/braveulysses/scim2-js/issues"
+  },
   "devDependencies": {
     "babel-cli": "6",
     "babel-jest": "^18.0.0",
