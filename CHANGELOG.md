@@ -6,3 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.0] - 2017-01-24
 Initial release.
+
+## [0.1.1] - 2017-xx-xx
+Version 0.1.1 notes go here.
