@@ -1,6 +1,6 @@
 {
   "name": "@braveulysses/scim2",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple SCIM 2 for JavaScript",
   "main": "./dist/index.js",
   "scripts": {
