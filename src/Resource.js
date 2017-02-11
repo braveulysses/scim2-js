@@ -1,12 +1,22 @@
 import objectPath from 'object-path';
 import Filter from './Filter';
 
+/**
+ * A class representing a generic SCIM resource, such as a user.
+ */
 class Resource {
   constructor(data) {
     this.data = data;
     this._resolveSchema = this._resolveSchema.bind(this);
   }
 
+  /**
+   * Create a new {Resource} instance from a JSON string.
+   *
+   * @param {string} json - A SCIM resource in JSON format.
+   * @returns {Resource} A SCIM resource object.
+   * @static
+   */
   static fromJSON(json) {
     return new Resource(JSON.parse(json));
   }
@@ -106,18 +116,37 @@ class Resource {
     }
   }
 
+  /**
+   * Get the SCIM resource id.
+   * @returns {string} The SCIM resource id.
+   */
   id() {
     return this.get('id');
   }
 
+  /**
+   * Get the SCIM resource's metadata. This might include the
+   * resource's location and created/updated timestamps.
+   * @returns {string} The SCIM resource's metadata.
+   */
   meta() {
     return this.get('meta');
   }
 
+  /**
+   * Get the SCIM resource's schemas.
+   * @returns {Array} An array of SCIM schema URNs.
+   */
   schemas() {
     return this.get('schemas');
   }
 
+  /**
+   * Get the attribute value at the specified path.
+   * @param {string} path - A SCIM attribute path.
+   * @returns {(string|number|boolean|Object)} The value at the
+   * specified path, or undefined if the path does not exist.
+   */
   get(path) {
     const { attributePath, data } = this._resolveSchema(path);
     const parsedPath = Resource._parseValueFilter(attributePath);
@@ -137,6 +166,11 @@ class Resource {
     return objectPath.get(data, attributePath);
   }
 
+  /**
+   * Set an attribute value at the specified path.
+   * @param {string} path - A SCIM attribute path.
+   * @param {(string|number|boolean|Object)} value - The value to set.
+   */
   set(path, value) {
     const { attributePath, data } = this._resolveSchema(path);
     const parsedPath = Resource._parseValueFilter(attributePath);
@@ -146,6 +180,9 @@ class Resource {
     objectPath.set(data, attributePath, value);
   }
 
+  /**
+   * Get the SCIM resource as a JSON string.
+   */
   toJSON() {
     return JSON.stringify(this.data);
   }

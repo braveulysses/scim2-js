@@ -4,8 +4,8 @@ const OPERATORS = [
   'eq', 'ne', 'co', 'sw', 'ew', 'pr', 'gt', 'ge', 'lt', 'le'
 ];
 
-/**
- * Simple SCIM 2 filter parser. It currently does not support filters
+/*
+ * A simple SCIM 2 filter parser. It currently does not support filters
  * containing multiple expressions (i.e., filters with 'and' or 'or').
  */
 class Filter {

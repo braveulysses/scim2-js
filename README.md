@@ -27,6 +27,10 @@ Or
 yarn add @braveulysses/scim2-js
 ```
 
+## API
+
+See the generated [API docs](API.md).
+
 ## Example
 
 ```javascript
@@ -73,6 +77,8 @@ fetch(url, {
   // ... and then apply the modification by sending a PATCH request.
 });
 ```
+
+## API
 
 ## License
 
