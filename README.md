@@ -2,7 +2,7 @@
 
 # scim2-js
 
-This is a simple JavaScript library for [SCIM 2](http://www.simplecloud.info/) applications. SCIM 2 is a set of standards that defines a schema for representing identities and a REST API for creating, retrieving, updating, and deleting them.
+This is a simple JavaScript library for [SCIM 2](http://www.simplecloud.info/) applications. SCIM 2 is a set of standards that defines a schema for representing identities, plus a REST API for creating, retrieving, updating, and deleting them.
 
 This library's feature set is not exhaustive and covers a limited set of common cases. These include:
 
@@ -10,8 +10,6 @@ This library's feature set is not exhaustive and covers a limited set of common 
   * Getting attribute values from a SCIM object using SCIM paths like `userName` or `emails[value eq "user@example.com"]`. (Not supported: filters containing multiple expressions)
 * Modifying a SCIM resource object.
 * Building a PATCH request.
-
-This library will help you parse SCIM responses and formulate certain kinds of requests, but it doesn't actually provide an HTTP client, since numerous generic options are already available that work well. For example, see [Axios](https://github.com/mzabriskie/axios), [whatwg-fetch](https://github.com/github/fetch), or [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch).
 
 If you're looking for a SCIM 2 library with more comprehensive support for the SCIM 2 standard, see the [UnboundID SCIM 2 SDK for Java](https://github.com/UnboundID/scim2). I'm not aware of a comparable JavaScript SDK.
 
@@ -30,6 +28,10 @@ yarn add @braveulysses/scim2-js
 ## API
 
 See the generated [API docs](API.md).
+
+### Making requests
+
+This library will help you parse SCIM responses and formulate certain kinds of requests, but it doesn't actually provide an HTTP client, since numerous generic options are already available that work well. For example, see [Axios](https://github.com/mzabriskie/axios), [whatwg-fetch](https://github.com/github/fetch), or [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch).
 
 ## Example
 
@@ -77,8 +79,6 @@ fetch(url, {
   // ... and then apply the modification by sending a PATCH request.
 });
 ```
-
-## API
 
 ## License
 
